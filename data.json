@@ -57,14 +57,7 @@
          {"from": "LAX", "to": "SFO"},
          {"from": "SFO", "to": "SAN"}
        ]
-     },
-     {
-      "fid": "8",
-      "price": 10,
-      "routes": [
-        {"from": "SFO", "to": "HKG"}
-      ]
-    }
+     }
   ]
 }
 

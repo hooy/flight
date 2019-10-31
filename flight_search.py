@@ -1,6 +1,6 @@
 import os
 import json
-
+import time
 
 class Infinity:
     def __lt__(self, other):
@@ -30,49 +30,51 @@ def parse_fares(json_fares):
     return [fare(**f) for f in json_fares]
 
 
-def find_optimal_combination(current_itinerary, fares_left, price):
-    fl = fares_left[:]
-    print(price, current_itinerary, fares_left)
+def find_optimal_combination(path, fares):
 
-    if current_itinerary:
-        if fares_left:
-            fare_to_take = fl.pop()
+    def fare_taker(current_path, available_fares, fares_taken, price):
+        # print(current_path, available_fares, fares_taken, price)
+        # time.sleep(2)
+        if (path - current_path):  # itineary is not finished
+            fl = set(available_fares - fares_taken)  # fares left
+            if fl:
+                fare_to_take = fl.pop()
+                if (set(fare_to_take.routes).intersection(current_path)): # cannot take fare, contains edge we already took
+                    return fare_taker(current_path, fl, fares_taken, price)
+                else:  # can take fare
+                    return min(
+                        fare_taker( # take
+                            current_path.union(set(fare_to_take.routes)),
+                            fl,
+                            fares_taken.union({fare_to_take}),
+                            price + fare_to_take.price
+                        ),
+                        fare_taker(current_path, fl, fares_taken, price),  # do not take
+                        key=lambda x: x[1]
+                    )
 
-            if set(fare_to_take.routes).issubset(current_itinerary):
-                return min(
-                    # take this fare
-                    find_optimal_combination(
-                        current_itinerary - set(fare_to_take.routes),
-                        fl,
-                        price + fare_to_take.price,
-                    ),
-                    # dont take this fare
-                    find_optimal_combination(current_itinerary, fl, price),
-                    key=lambda x: x[0],
-                )
-            else:  # fare is too "big", skip it
-                return find_optimal_combination(current_itinerary, fl, price)
+            else:  # there are no fares left but path is unfinished
+                return (fares_taken, Infinity())
+        else:
+            return (fares_taken, price)
 
-        else:  # there is still route, but no fare left
-            return (Infinity(), fares_left)
-    else:
-        return (price, fares_left)
-
+    # print(path, fares)
+    return fare_taker(current_path=set(), available_fares=fares, fares_taken=set(), price=0)
 
 def main():
     with open(os.environ["DATA_FILE"], "r") as f:
         data = json.loads(f.read())
 
     itinerary = set(parse_routes(data["itinerary"]))
-    fares = parse_fares(data["fares"])
+    fares = set(parse_fares(data["fares"]))
 
     # filter fares with extra flights
-    fares = list(filter(lambda x: not (set(x.routes) - itinerary), fares))
-    optimal_price, fares_left = find_optimal_combination(itinerary, fares, 0)
+    fares = set(filter(lambda x: not (set(x.routes) - itinerary), fares))
+    fares_taken, price = find_optimal_combination(itinerary, fares)
 
-    optimal_fares = [fare.fid for fare in set(fares) - set(fares_left)]
+    answer = [fare.fid for fare in fares_taken]
     with open(os.environ["RESULT_FILE"], 'w') as f:
-        f.write(json.dumps(optimal_fares))
+        f.write(json.dumps(answer))
 
 
 if __name__ == "__main__":
