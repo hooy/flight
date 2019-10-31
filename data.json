@@ -1,0 +1,70 @@
+{
+  "itinerary": [
+    {"from": "SFO", "to": "HKG"},
+    {"from": "HKG", "to": "MNL"},
+    {"from": "MNL", "to": "ICN"},
+    {"from": "ICN", "to": "LAX"},
+    {"from": "LAX", "to": "SFO"}
+  ],
+  "fares": [
+    {
+      "fid": "1",
+      "price": 350,
+      "routes": [
+        {"from": "SFO", "to": "HKG"}
+      ]
+    }, {
+      "fid": "2",
+      "price": 100,
+      "routes": [
+        {"from": "HKG", "to": "MNL"},
+        {"from": "MNL", "to": "ICN"}
+      ]
+    }, {
+      "fid": "3",
+      "price": 200,
+      "routes": [
+        {"from": "ICN", "to": "LAX"},
+        {"from": "LAX", "to": "SFO"}
+      ]
+    }, {
+      "fid": "4",
+      "price": 250,
+      "routes": [
+        {"from": "SFO", "to": "HKG"},
+        {"from": "HKG", "to": "MNL"}
+      ]
+    }, {
+      "fid": "5",
+      "price": 200,
+      "routes": [
+        {"from": "MNL", "to": "ICN"}
+      ]
+    }, {
+      "fid": "6",
+      "price": 400,
+      "routes": [
+        {"from": "SFO", "to": "HKG"},
+        {"from": "HKG", "to": "MNL"},
+        {"from": "ICN", "to": "LAX"},
+        {"from": "LAX", "to": "SFO"}
+      ]
+    }, {
+       "fid": "7",
+       "price": 100,
+       "routes": [
+         {"from": "ICN", "to": "LAX"},
+         {"from": "LAX", "to": "SFO"},
+         {"from": "SFO", "to": "SAN"}
+       ]
+     },
+     {
+      "fid": "8",
+      "price": 10,
+      "routes": [
+        {"from": "SFO", "to": "HKG"}
+      ]
+    }
+  ]
+}
+

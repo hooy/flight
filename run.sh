@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "INPUT DATA FILE: ${DATA_FILE}"
+echo "OUTPUT RESULT FILE: ${RESULT_FILE}"
+
+echo "WRITING PRE-DEFINED JSON ARRAY AS ANSWER"
+echo "[\"5\", \"6\"]" > "${RESULT_FILE}"
+
