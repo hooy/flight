@@ -13,6 +13,12 @@
       "routes": [
         {"from": "SFO", "to": "HKG"}
       ]
+    },{
+      "fid": "5",
+      "price": 200,
+      "routes": [
+        {"from": "MNL", "to": "ICN"}
+      ]
     }, {
       "fid": "2",
       "price": 100,
@@ -34,13 +40,7 @@
         {"from": "SFO", "to": "HKG"},
         {"from": "HKG", "to": "MNL"}
       ]
-    }, {
-      "fid": "5",
-      "price": 200,
-      "routes": [
-        {"from": "MNL", "to": "ICN"}
-      ]
-    }, {
+    },  {
       "fid": "6",
       "price": 400,
       "routes": [
