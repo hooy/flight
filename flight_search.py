@@ -47,7 +47,7 @@ def find_optimal_combination_iterative(path, fares):
                 current_fares.update({f2})
                 if not(path - current_path): # finished route
                     break
-                if current_price >= minimal_route[1]:  # this route is already bigger than minimal
+                if current_price > minimal_route[1]:  # this route is already bigger than minimal
                     break
         if not(path - current_path) and current_price < minimal_route[1]:
             minimal_route = (current_fares, current_price)
