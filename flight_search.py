@@ -11,7 +11,7 @@ class Infinity:
 
 
 def parse_routes(json_data):
-    return [(edge["from"], edge["to"]) for edge in json_data]
+    return set([(edge["from"], edge["to"]) for edge in json_data])
 
 
 class fare(object):
@@ -29,25 +29,25 @@ class fare(object):
 def parse_fares(json_fares):
     return [fare(**f) for f in json_fares]
 
-def find_optimal_combination_kruskal(path, fares):
-    tree_set = {}
 
 def find_optimal_combination_iterative(path, fares):
     minimal_route = (None, Infinity())
 
     for f1 in fares:
-        current_path, current_price, current_fares = set(f1.routes), f1.price, {f1}
+        current_path, current_price, current_fares = f1.routes, f1.price, {f1}
         other_fares = fares.copy()
         other_fares.remove(f1)
         for f2 in other_fares:
-            routes = set(f2.routes)
+            routes = f2.routes
             if (routes.intersection(current_path)):  # cannot take fare, contains edge we already took
-                pass
+                continue
             else:
                 current_path = current_path.union(routes)
                 current_price += f2.price
                 current_fares.update({f2})
                 if not(path - current_path): # finished route
+                    break
+                if current_price >= minimal_route[1]:  # this route is already bigger than minimal
                     break
         if not(path - current_path) and current_price < minimal_route[1]:
             minimal_route = (current_fares, current_price)
@@ -96,6 +96,7 @@ def main():
 
     # filter fares with extra flights
     fares = set(filter(lambda x: not (set(x.routes) - itinerary), fares))
+    # print('total fares', len(fares), len(itinerary))
     # fares_taken, price = find_optimal_combination(itinerary, fares)
     fares_taken, price = find_optimal_combination_iterative(itinerary, fares)
 
